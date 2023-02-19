@@ -1,0 +1,61 @@
+#Criação de usuários, grupos e permissões.
+
+#Criação de usuário com tempo de limite de uso o sistema, -c "comentário", -m "pasta do usuário", -e "especificar data";
+
+useradd user -c "Convidado" -m -e date
+
+#Criação de usuário com tempo de limite de uso o sistema, -c "comentário", -m "pasta do usuário", -e "especificar data",
+-s "definição do bash", -p "senha encriptada";
+
+useradd user -c "Convidado" -s /bin/bash -m -p $(openssl passwd -crypt "definir senha") 
+
+#Definição de senha do usuário para o próprio trocar após locar pela primeira vez;
+
+passwd user -e
+
+#Verificação de usuárioi castrados;
+
+cat /etc/passwd
+
+#Permissão para rodar o scrip, identificar o local do script e o comando para rodar o scrip;
+
+chmod +x script.sh
+
+cd /scrip
+
+./script.sh
+
+
+#Criando grupo e deletando grupo;
+
+groupadd namegroup
+groupdel namegroup
+
+#Visualização dos grupos;
+
+cat /etc/group
+
+#Criação do usuário com especificação do grupo.
+
+useradd user -c "Convidado" -s /bin/bash -m -p $(openssl passwd -crypt "definir senha") -G group passwd -e
+
+#Trocando usuário de grupo e permissões, essa é uma permissão para usuário root;
+
+usermod -G adm,sudo user
+
+#Modificando o usuário de grupo e removendo de grupo;
+
+usermod -G group user
+
+gpasswd -d user group
+
+#Definição de dono do grupo;
+
+chown user:group diretóro
+
+#Ajustando permissão para o dono, grupo, usuário,(read(r)"4", write(w)"2",execution(x)"1",null"0"),
+base de soma para defeinição das permissões;
+
+#	DGU
+chmod 750 diretorio
+

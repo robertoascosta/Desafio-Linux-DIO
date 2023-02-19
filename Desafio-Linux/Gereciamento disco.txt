@@ -1,0 +1,65 @@
+#Gerenciamento de Discos
+
+#Utilizando o virtual box, para criação de um novo hd no mesmo sistema Linux usado, sempre usar modo vdi,
+observe a criação do novo HD para averiguar e fazer os processos de formatação para poder ser utilizado;
+
+#Reconhecendo os discos disponivéis do sistema;
+
+lsblk
+
+fdisk -l
+
+#Para formatação observar os HD (sda, sdb, sdc ..), geralemente para um novo HD sua base procede de (sdb,sdc),
+use o comando e o caminho do HD que deseja formatar;
+
+fdisk /dev/sdb
+
+#Uma opção de ajuda é apresentada, usaremos o "n" para adcionar uma nova partição, 
+logo após escolher tipo de partição primaria ou extendida, usaremos "p" para primaria, número da partição "1",
+primeiro setor "usar modo defualt" usar o enter, ultimo setor "usar modo defualt" usar o enter, por fim
+salvar a alteração usando "w";
+
+#Após as configurações terá que confirmar a formatação especificando qual extensão do sistema de aquivo há ser usada,
+no nosso caso usaremos o padrão Linux (ext4);
+
+mkfs.ext4 /dev/sdb
+
+#Confirmando com "y" sua alteração;
+
+#Usando o caminho especifico para montagem do disco que se encontra na raiz chamado /mnt,
+esse diretório fica responsavel pelos HD. Criar uma pasta especifica para cada HD ajuda para especificar
+a montagem;
+
+cd /mnt/
+mkdir disco2
+
+#Montando o HD no caminho especifico para uso;
+
+mount /dev/sdb /mnt/disco2
+
+#Após montado todos os dados manipulados ficam guardado no disco2, em caso de desejar voltar ao disco anterior,
+terá que desmontar para voltar ao HD anterior.
+
+umount /dev/sdb
+
+#Exclusão do disco só poderá ser feita quando desmontado;
+
+rmdir /mnt/disco02
+
+#Automatizando a montage de disco. Alteração no arquivo de configuração para indicar o caminho de montagem dos discos;
+
+nano /etc/fstab
+
+#Após entra na configuração deve fazer os procedimentos de disco, qual o caminho e o sistema de arquivo,
+parâmetro padrão no final do arquivo insira o caminho, salvar mudança após as alterações e reiniciar a maquina;
+
+/dev/sdb /disco2 ext4 defaults 0 0
+
+
+
+
+
+
+
+ 
+

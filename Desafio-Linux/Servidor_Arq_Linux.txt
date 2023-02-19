@@ -1,0 +1,38 @@
+#Servidor de aquivo instalando e configurando
+
+sudo apt install samba -y
+
+#Sempre ´procurar monta o serviços compartilhados em disco diferente do sistema operacional
+#Criar a pasta para compatilhamento de acordo com o grupo
+
+Ex.: ao criar um segundo disco "disk2", compartilhe a pasta em alinhamente com o grupo definido e permissões para a pasta.
+
+#Criação da pasta
+disk2# mkdir publica
+
+#Permissão total para pasta
+disk2# chmod 777 publica/
+
+#visualização da permissão da pasta
+disk2# ls -l
+
+#Configuração do arquivo samba para exposição da pasta compartilhada
+disk2# nano /etc/samba/smb.conf
+
+#Abrindo o arquivo, siga até o final para incluir os parâmetros para o compatilhamento da pasta
+
+[publica]
+
+path = /disk2/publica
+writable = yes
+gust ok = yes
+guest only = yes
+
+#Após altereção no arquivo de configuração, um restart é necessário para leitura das mofdificações
+systemctl restart smbd
+
+#Averiguar os status do samba
+systemctl status smbd
+
+#Modo de execução automatica
+systemctl enable smbd
